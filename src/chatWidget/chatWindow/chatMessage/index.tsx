@@ -27,9 +27,9 @@ export default function ChatMessage({
           {message}
         </div>
       ) : (
-        <div className={"cl-bot_message flex items-start gap-2"}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
           <img src="https://cdn2.hubspot.net/hub/6619918/hubfs/logo-innotech-vietnam-corporation-tach-nen.png?width=40&height=40" alt="Logo" width={40} height={40} />
-          <div style={bot_message_style}>
+          <div className={"cl-bot_message"} style={bot_message_style}>
             <Markdown 
           className={"markdown-body prose flex flex-col word-break-break-word"}
           remarkPlugins={[remarkGfm]}

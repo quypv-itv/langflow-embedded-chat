@@ -93,6 +93,16 @@ export default function ChatWindow({
 
   const [sendingMessage, setSendingMessage] = useState(false);
 
+  /* Add default welcome message on first render */
+  useEffect(() => {
+    if (messages.length === 0) {
+      addMessage({
+        message: "Hello! Welcome to Innotech Vietnam.\nGot any questions? I'm happy to help.",
+        isSend: false,
+      });
+    }
+  }, []);
+
   function handleClick() {
     if (value && value.trim() !== "") {
       addMessage({ message: value, isSend: true });
