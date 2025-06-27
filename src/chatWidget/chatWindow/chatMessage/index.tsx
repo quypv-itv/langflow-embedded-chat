@@ -27,14 +27,17 @@ export default function ChatMessage({
           {message}
         </div>
       ) : (
-        <div style={bot_message_style} className={"cl-bot_message"}>
-          <Markdown 
+        <div className={"cl-bot_message flex items-start gap-2"}>
+          <img src="https://cdn2.hubspot.net/hub/6619918/hubfs/logo-innotech-vietnam-corporation-tach-nen.png?width=40&height=40" alt="Logo" width={40} height={40} />
+          <div style={bot_message_style}>
+            <Markdown 
           className={"markdown-body prose flex flex-col word-break-break-word"}
           remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeMathjax]}
           >
             {message}
           </Markdown>
+          </div>
         </div>
       )}
     </div>
