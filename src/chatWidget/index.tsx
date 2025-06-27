@@ -697,8 +697,8 @@ video {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 20px;
   font-weight: 300;
   color: white;
 }
@@ -713,8 +713,8 @@ video {
   padding-bottom: 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  font-size: 28px;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 28px;
   font-weight: 400;
   color: white;
   --tw-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
