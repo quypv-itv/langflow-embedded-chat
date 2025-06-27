@@ -660,16 +660,16 @@ video {
 }
 
 .cl-online-message {
-  height: 0.5rem;
-  width: 0.5rem;
+  height: 8px;
+  width: 8px;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(34 197 94 / var(--tw-bg-opacity));
 }
 
 .cl-offline-message {
-  height: 0.5rem;
-  width: 0.5rem;
+  height: 8px;
+  width: 8px;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
@@ -697,8 +697,8 @@ video {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 16px;
   font-weight: 300;
   color: white;
 }
