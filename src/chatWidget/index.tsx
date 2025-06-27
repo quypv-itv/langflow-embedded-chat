@@ -697,10 +697,10 @@ video {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: "18px";
+  line-height: "24px";
   font-weight: 300;
-  color: rgb(107 114 128);
+  color: white;
 }
 
 .cl-header {
@@ -713,10 +713,10 @@ video {
   padding-bottom: 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: "28px";
+  line-height: "36px";
   font-weight: 400;
-  color: rgb(17 24 39);
+  color: white;
   --tw-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   --tw-shadow-colored: 0 0 10px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
