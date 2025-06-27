@@ -708,7 +708,7 @@ video {
   display: flex;
   flex-direction: column;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: #F1592A;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1.5rem;
