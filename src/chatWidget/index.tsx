@@ -918,6 +918,53 @@ input:-ms-input-placeholder { /* Internet Explorer 10-11 */
 input::-ms-input-placeholder { /* Microsoft Edge */
   color: rgb(156 163 175);
 }
+
+.cl-thinking-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cl-thinking-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.cl-thinking-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.cl-dot {
+  font-size: 16px;
+  font-weight: bold;
+  color: #6b7280;
+  animation: cl-thinking-animation 1.5s infinite;
+}
+
+.cl-dot-1 {
+  animation-delay: 0s;
+}
+
+.cl-dot-2 {
+  animation-delay: 0.3s;
+}
+
+.cl-dot-3 {
+  animation-delay: 0.6s;
+}
+
+@keyframes cl-thinking-animation {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
     `;
 
   const markdownBody = `
