@@ -80,9 +80,25 @@ export async function sendMessageStream(
                             console.log('Token chunk received:', JSON.stringify(parsed.data.chunk));
                             fullMessage += parsed.data.chunk;
                             onChunk(parsed.data.chunk);
-                        } else if (parsed.event === 'add_message' && parsed.data && parsed.data.session_id) {
-                            console.log('Session ID received:', parsed.data.session_id);
-                            newSessionId = parsed.data.session_id;
+                        } else if (parsed.event === 'add_message' && parsed.data) {
+                            // Handle add_message events with text field
+                            if (parsed.data.session_id) {
+                                console.log('Session ID received:', parsed.data.session_id);
+                                newSessionId = parsed.data.session_id;
+                            }
+                            
+                            // Process streaming text from Machine sender
+                            if (parsed.data.sender === 'Machine' && parsed.data.text !== undefined) {
+                                const newText = parsed.data.text;
+                                console.log('Add message text received:', JSON.stringify(newText));
+                                
+                                // Calculate the new chunk by comparing with previous full message
+                                if (newText.length > fullMessage.length) {
+                                    const newChunk = newText.slice(fullMessage.length);
+                                    fullMessage = newText;
+                                    onChunk(newChunk);
+                                }
+                            }
                         }
                     } catch (parseError) {
                         console.warn('Failed to parse streaming data:', line, parseError);
