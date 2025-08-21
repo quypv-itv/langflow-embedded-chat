@@ -920,9 +920,9 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 }
 
 .cl-thinking-container {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .cl-thinking-text {
@@ -963,6 +963,26 @@ input::-ms-input-placeholder { /* Microsoft Edge */
   30% {
     opacity: 1;
     transform: scale(1.2);
+  }
+}
+
+.cl-streaming-text {
+  position: relative;
+}
+
+.cl-streaming-text::after {
+  content: '|';
+  color: #6b7280;
+  animation: cl-cursor-blink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes cl-cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
   }
 }
     `;

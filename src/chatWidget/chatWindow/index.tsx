@@ -3,7 +3,7 @@ import { extractMessageFromOutput, getAnimationOrigin, getChatPosition } from ".
 import React, { useEffect, useRef, useState } from "react";
 import { ChatMessageType } from "../../types/chatWidget";
 import ChatMessage from "./chatMessage";
-import { sendMessage } from "../../controllers";
+import { sendMessage, sendMessageStream } from "../../controllers";
 import ChatMessagePlaceholder from "../../chatPlaceholder";
 
 export default function ChatWindow({
@@ -108,50 +108,64 @@ export default function ChatWindow({
       addMessage({ message: value, isSend: true });
       setSendingMessage(true);
       setValue("");
-      sendMessage(hostUrl, flowId, value, input_type, output_type, sessionId, output_component, tweaks, api_key, additional_headers)
-        .then((res) => {
-          if (
-            res.data &&
-            res.data.outputs &&
-            Object.keys(res.data.outputs).length > 0 &&
-            res.data.outputs[0].outputs && res.data.outputs[0].outputs.length > 0
-          ) {
-            const flowOutputs: Array<any> = res.data.outputs[0].outputs;
-            if (output_component &&
-              flowOutputs.map(e => e.component_id).includes(output_component)) {
-              Object.values(flowOutputs.find(e => e.component_id === output_component).outputs).forEach((output: any) => {
-                addMessage({
-                  message: extractMessageFromOutput(output),
-                  isSend: false,
-                });
-              })
-            } else if (
-              flowOutputs.length === 1
-            ) {
-              Object.values(flowOutputs[0].outputs).forEach((output: any) => {
-                addMessage({
-                  message: extractMessageFromOutput(output),
-                  isSend: false,
-                });
-              })
-            } else {
-              flowOutputs
-                .sort((a, b) => {
-                  // Get the earliest timestamp from each flowOutput's outputs
-                  const aTimestamp = Math.min(...Object.values(a.outputs).map((output: any) => Date.parse(output.message?.timestamp)));
-                  const bTimestamp = Math.min(...Object.values(b.outputs).map((output: any) => Date.parse(output.message?.timestamp)));
-                  return aTimestamp - bTimestamp; // Sort descending (newest first)
-                })
-                .forEach((flowOutput) => {
-                  Object.values(flowOutput.outputs).forEach((output: any) => {
-                    addMessage({
-                      message: extractMessageFromOutput(output),
-                      isSend: false,
-                    });
-                  });
-                });
-            }
+      
+      // Add loading message with avatar first
+      addMessage({ message: "loading", isSend: false, isStreaming: true });
+      let streamingMessage = "";
+      let chunkQueue: string[] = [];
+      let isTyping = false;
+      let hasReceivedData = false;
+      
+      const processQueue = () => {
+        if (chunkQueue.length === 0 || isTyping) return;
+        
+        isTyping = true;
+        const chunk = chunkQueue.shift()!;
+        let charIndex = 0;
+        
+        const typeChar = () => {
+          if (charIndex < chunk.length) {
+            streamingMessage += chunk[charIndex];
+            updateLastMessage({ message: streamingMessage, isSend: false, isStreaming: true });
+            charIndex++;
+            setTimeout(typeChar, 5); // 20ms per character
+          } else {
+            isTyping = false;
+            processQueue(); // Process next chunk
           }
+        };
+        
+        typeChar();
+      };
+      
+      sendMessageStream(
+        hostUrl, 
+        flowId, 
+        value, 
+        input_type, 
+        output_type, 
+        sessionId, 
+        (chunk: string) => {
+          // On first chunk, replace loading with empty message
+          if (!hasReceivedData) {
+            hasReceivedData = true;
+            streamingMessage = "";
+            updateLastMessage({ message: streamingMessage, isSend: false, isStreaming: true });
+          }
+          
+          // Add chunk to queue and process
+          chunkQueue.push(chunk);
+          processQueue();
+        },
+        output_component, 
+        tweaks, 
+        api_key, 
+        additional_headers
+      )
+        .then((res) => {
+          // Mark streaming as complete and remove cursor
+          updateLastMessage({ message: streamingMessage, isSend: false, isStreaming: false });
+          
           if (res.data && res.data.session_id) {
             sessionId.current = res.data.session_id;
           }
@@ -239,9 +253,6 @@ export default function ChatWindow({
               error={message.error}
             />
           ))}
-          {sendingMessage && (
-            <ChatMessagePlaceholder bot_message_style={bot_message_style} />
-          )}
           <div ref={lastMessage}></div>
         </div>
         <div style={input_container_style} className="cl-input_container">

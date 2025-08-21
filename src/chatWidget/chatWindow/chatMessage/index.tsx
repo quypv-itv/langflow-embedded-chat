@@ -7,6 +7,7 @@ export default function ChatMessage({
   message,
   isSend,
   error,
+  isStreaming,
   user_message_style,
   bot_message_style,
   error_message_style,
@@ -29,14 +30,25 @@ export default function ChatMessage({
       ) : (
         <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
           <img src="https://cdn2.hubspot.net/hub/6619918/hubfs/logo-innotech-vietnam-corporation-tach-nen.png?width=40&height=40" alt="Logo" width={35} height={35} />
-          <div className={"cl-bot_message"} style={bot_message_style}>
-            <Markdown 
-          className={"markdown-body prose flex flex-col word-break-break-word"}
-          remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeMathjax]}
-          >
-            {message}
-          </Markdown>
+          <div className={`cl-bot_message ${isStreaming ? 'cl-streaming-text' : ''}`} style={bot_message_style}>
+            {message === "loading" ? (
+              <div className="cl-thinking-container">
+                <span className="cl-thinking-text">Xin chờ một chút</span>
+                <div className="cl-thinking-dots">
+                  <span className="cl-dot cl-dot-1">.</span>
+                  <span className="cl-dot cl-dot-2">.</span>
+                  <span className="cl-dot cl-dot-3">.</span>
+                </div>
+              </div>
+            ) : (
+              <Markdown 
+            className={"markdown-body prose flex flex-col word-break-break-word"}
+            remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeMathjax]}
+            >
+              {message}
+            </Markdown>
+            )}
           </div>
         </div>
       )}
