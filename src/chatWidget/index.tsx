@@ -931,6 +931,27 @@ input::-ms-input-placeholder { /* Microsoft Edge */
   font-style: italic;
 }
 
+.cl-thinking-text-shimmer {
+  font-size: 14px;
+  color: #6b7280;
+  font-style: italic;
+  background: linear-gradient(90deg, #6b7280 25%, #ffffff 50%, #6b7280 75%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: cl-shimmer-animation 2s infinite;
+}
+
+@keyframes cl-shimmer-animation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .cl-thinking-dots {
   display: flex;
   gap: 2px;

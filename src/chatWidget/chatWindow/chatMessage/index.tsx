@@ -33,7 +33,7 @@ export default function ChatMessage({
           <div className={`cl-bot_message ${isStreaming ? 'cl-streaming-text' : ''}`} style={bot_message_style}>
             {message === "loading" ? (
               <div className="cl-thinking-container">
-                <span className="cl-thinking-text">Xin chờ một chút</span>
+                <span className="cl-thinking-text-shimmer">Thinking</span>
                 <div className="cl-thinking-dots">
                   <span className="cl-dot cl-dot-1">.</span>
                   <span className="cl-dot cl-dot-2">.</span>
